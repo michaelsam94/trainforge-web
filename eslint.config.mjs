@@ -11,6 +11,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends("plugin:jsx-a11y/recommended"),
   {
     ignores: [
       "node_modules/**",
@@ -18,6 +19,8 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "public/sw.js",
+      "public/swe-worker-*.js",
     ],
   },
 ];

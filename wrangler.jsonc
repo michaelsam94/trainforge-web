@@ -1,0 +1,7 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "trainforge",
+	"pages_build_output_dir": ".open-next",
+	"compatibility_date": "2026-06-19",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"]
+}
