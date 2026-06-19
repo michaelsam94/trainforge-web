@@ -1,6 +1,10 @@
-# Cloudflare Pages build settings
+# Cloudflare Pages Build Settings
 
-Use these exact settings for the `trainforge` Pages project.
+The `trainforge` Pages project must use the OpenNext build path.
+
+## Required Dashboard Settings
+
+Open **Cloudflare Dashboard** -> **Workers & Pages** -> **trainforge** -> **Settings** -> **Builds & deployments** and set:
 
 | Setting | Value |
 | --- | --- |
@@ -10,23 +14,29 @@ Use these exact settings for the `trainforge` Pages project.
 | Root directory | repository root |
 | Node.js version | `22` |
 
-Required production environment variables:
+Then save and retry the failed deployment.
 
-| Variable | Value |
-| --- | --- |
-| `API_PROXY_TARGET` | `https://trainforge-api.michaelsam00.workers.dev` |
-| `NEXT_PUBLIC_APP_URL` | `https://trainforge.pages.dev` |
-| `NEXT_PUBLIC_API_URL` | `/api` |
+## Do Not Use
 
-Do not use the old `@cloudflare/next-on-pages` preset or command. This app is built with `@opennextjs/cloudflare`, and `npm run build` already runs:
+Do not use the old `@cloudflare/next-on-pages` preset or command. This project uses `@opennextjs/cloudflare`.
 
-1. `opennextjs-cloudflare build`
-2. `bash scripts/prepare-pages-deploy.sh`
+The failing command looks like this:
 
-If a deploy log says Cloudflare is executing a command that starts with `npx @npm ci`, or contains `@cloudflare/next-on-pages`, update the Pages dashboard build command back to:
-
-```bash
-npm run build
+```text
+npx @npm ci && opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.shcloudflare/next-on-pages@1
 ```
 
-The repo also exposes `npm run build:cloudflare` as an alias, but the dashboard should use `npm run build` so it stays aligned with the default production build.
+That command is invalid for two reasons:
+
+1. `npx @npm ci` is not a valid npm install command.
+2. `@cloudflare/next-on-pages` is the old adapter and should not be appended to the OpenNext build.
+
+## What `npm run build` Runs
+
+The package script already performs the full Cloudflare Pages build:
+
+```bash
+opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh
+```
+
+Cloudflare Pages runs `npm ci` before the build command, so do not add another install command to the dashboard build command.
