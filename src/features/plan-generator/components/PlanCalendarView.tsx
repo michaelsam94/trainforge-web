@@ -10,7 +10,9 @@ type PlanCalendarViewProps = {
   canUseAi?: boolean;
   errorMessage?: string;
   onGenerate?: () => void;
+  onReset?: () => void;
   isGeneratePending?: boolean;
+  isResetPending?: boolean;
 };
 
 export function PlanCalendarView({
@@ -21,7 +23,9 @@ export function PlanCalendarView({
   canUseAi = false,
   errorMessage,
   onGenerate,
+  onReset,
   isGeneratePending = false,
+  isResetPending = false,
 }: PlanCalendarViewProps) {
   const days: PlanDay[] = plan?.days ?? [];
 
@@ -38,16 +42,28 @@ export function PlanCalendarView({
                 : "Weekly manual plan from the exercise catalog"}
           </p>
         </div>
-        {isEmpty && onGenerate ? (
-          <button
-            type="button"
-            onClick={onGenerate}
-            disabled={isGeneratePending || isGenerating}
-            className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-full)] bg-brand-400 px-6 text-base font-medium text-white disabled:opacity-60"
-          >
-            {isGeneratePending || isGenerating ? "Generating…" : "Regenerate with AI"}
-          </button>
-        ) : null}
+        <div className="flex flex-wrap items-center gap-2">
+          {onReset && !isEmpty ? (
+            <button
+              type="button"
+              onClick={onReset}
+              disabled={isResetPending || isGenerating || isGeneratePending}
+              className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-full)] border border-border px-5 text-sm font-medium text-muted hover:text-foreground disabled:opacity-60"
+            >
+              {isResetPending ? "Resetting…" : "Reset plan"}
+            </button>
+          ) : null}
+          {isEmpty && onGenerate ? (
+            <button
+              type="button"
+              onClick={onGenerate}
+              disabled={isGeneratePending || isGenerating}
+              className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-full)] bg-brand-400 px-6 text-base font-medium text-white disabled:opacity-60"
+            >
+              {isGeneratePending || isGenerating ? "Generating…" : "Regenerate with AI"}
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {errorMessage ? (

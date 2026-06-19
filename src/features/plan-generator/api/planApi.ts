@@ -5,6 +5,7 @@ import type {
   CurrentPlanResponse,
   GeneratePlanResponse,
   PlanResponse,
+  ResetPlanResponse,
   TrainingPlan,
   WeekPlanResponse,
 } from "@/features/plan-generator/types";
@@ -33,6 +34,10 @@ export function mergeWeekPlanIntoTrainingPlan(
       exerciseCount: day.exercises.length,
     })),
   };
+}
+
+export async function resetCurrentPlan(): Promise<ResetPlanResponse> {
+  return apiClient.delete<ResetPlanResponse>("/plans/current");
 }
 
 export async function buildManualPlan(body: BuildPlanRequest): Promise<BuildPlanResponse> {

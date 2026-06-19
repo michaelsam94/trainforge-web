@@ -6,6 +6,7 @@ import {
   useBuildManualPlanMutation,
   useGeneratePlanMutation,
   usePlan,
+  useResetPlanMutation,
 } from "@/features/plan-generator/hooks/usePlan";
 import { PlanBuilderForm } from "@/features/plan-generator/components/PlanBuilderForm";
 import { PlanCalendarView } from "@/features/plan-generator/components/PlanCalendarView";
@@ -20,6 +21,7 @@ export function PlanCalendarContainer() {
   const { data: plan, isLoading, isError, error } = usePlan();
   const generatePlan = useGeneratePlanMutation();
   const buildManualPlan = useBuildManualPlanMutation();
+  const resetPlan = useResetPlanMutation();
   const { data: authData } = useCurrentUser();
   const tier = authData?.user.subscriptionTier ?? "free";
   const canGenerateAi = tierIncludesFeature(tier, "generate_plan");
@@ -40,6 +42,14 @@ export function PlanCalendarContainer() {
     autoTriggered.current = true;
     void generatePlan.mutateAsync();
   }, [canGenerateAi, shouldAutoGenerate, isLoading, plan?.status, generatePlan]);
+
+  const handleReset = () => {
+    const confirmed = window.confirm(
+      "Reset your current plan? You can build a new one from scratch. Workout logs tied to this plan will be removed.",
+    );
+    if (!confirmed) return;
+    void resetPlan.mutateAsync();
+  };
 
   if (!isLoading && isEmpty) {
     return (
@@ -86,7 +96,9 @@ export function PlanCalendarContainer() {
             }
           : undefined
       }
+      onReset={handleReset}
       isGeneratePending={generatePlan.isPending}
+      isResetPending={resetPlan.isPending}
     />
   );
 }

@@ -40,6 +40,10 @@ export type BuildPlanRequest = {
   bodyParts?: string[];
 };
 
+export type ResetPlanResponse = {
+  deleted: boolean;
+};
+
 export type CurrentPlanResponse = {
   plan: TrainingPlan | null;
 };

@@ -8,6 +8,7 @@ import {
   generatePlan,
   fetchPlanById,
   mergeWeekPlanIntoTrainingPlan,
+  resetCurrentPlan,
 } from "@/features/plan-generator/api/planApi";
 import type { BuildPlanRequest, TrainingPlan } from "@/features/plan-generator/types";
 
@@ -48,6 +49,17 @@ export function usePlanById(planId: string | undefined) {
       return response.plan;
     },
     enabled: Boolean(planId),
+  });
+}
+
+export function useResetPlanMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: resetCurrentPlan,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: planQueryKey });
+    },
   });
 }
 
