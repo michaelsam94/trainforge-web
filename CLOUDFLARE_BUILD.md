@@ -39,6 +39,8 @@ That command is invalid for two reasons:
 next build
 ```
 
+Keep `buildCommand` on the exported config object, outside the `defineCloudflareConfig(...)` call. The helper only accepts Cloudflare override fields and drops unknown options.
+
 The dashboard can use `npm run build`, which performs the full Cloudflare Pages build:
 
 ```bash
