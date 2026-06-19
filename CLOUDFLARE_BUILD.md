@@ -9,7 +9,7 @@ Open **Cloudflare Dashboard** -> **Workers & Pages** -> **trainforge** -> **Sett
 | Setting | Value |
 | --- | --- |
 | Framework preset | `None` |
-| Build command | `npm run build:cloudflare` |
+| Build command | `npm run build` |
 | Build output directory | `.open-next` |
 | Root directory | repository root |
 | Node.js version | `22` |
@@ -33,13 +33,13 @@ That command is invalid for two reasons:
 
 ## Why This Avoids Recursion
 
-`opennextjs-cloudflare build` invokes the app's normal build script internally. Keep `npm run build` as the plain Next.js build:
+`opennextjs-cloudflare build` can invoke the app's normal build script internally. `open-next.config.ts` pins that internal command to the plain Next.js build:
 
 ```bash
 next build
 ```
 
-The dashboard must use `npm run build:cloudflare`, which performs the full Cloudflare Pages build:
+The dashboard can use `npm run build`, which performs the full Cloudflare Pages build:
 
 ```bash
 opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh
