@@ -17,7 +17,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-App runs at `http://localhost:2021`. Ensure API is running on port **2020**; the browser calls `/api/*` which Next.js proxies to the backend.
+App runs at `http://localhost:2021`. The browser calls `/api/*` through Next.js rewrites. By default, rewrites target the deployed API worker; set `API_PROXY_TARGET=http://localhost:2020` in `.env.local` to use a local API server.
 
 ## Scripts
 

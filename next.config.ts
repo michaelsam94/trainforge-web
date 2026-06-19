@@ -2,7 +2,9 @@ import type { NextConfig } from "next";
 import withSerwistInit from "@serwist/next";
 
 /** Backend origin for Next.js rewrites (server-side only). */
-const apiProxyTarget = process.env.API_PROXY_TARGET ?? "http://localhost:2020";
+const apiProxyTarget =
+  process.env.API_PROXY_TARGET ??
+  "https://trainforge-api.michaelsam00.workers.dev";
 
 const withSerwist = withSerwistInit({
   swSrc: "src/sw.ts",
