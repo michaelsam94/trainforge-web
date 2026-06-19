@@ -22,6 +22,7 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
     currentExerciseIndex,
     reps,
     loggedSets,
+    addLoggedSet,
     workoutLogId,
     incrementReps,
     decrementReps,
@@ -42,6 +43,9 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
   const isExerciseComplete = completedForExercise >= prescribedSets;
 
   const handleLogSet = async () => {
+    const shouldAdvanceExercise =
+      nextSetNumber >= prescribedSets && currentExerciseIndex < day.exercises.length - 1;
+
     await logSet.mutateAsync({
       planDayId: day.id,
       exerciseId: exercise.id,
@@ -51,11 +55,18 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
       idempotencyKey: `set-${day.id}-${exercise.id}-${String(nextSetNumber)}`,
     });
 
-    if (isExerciseComplete || nextSetNumber >= prescribedSets) {
-      if (currentExerciseIndex < day.exercises.length - 1) {
-        setCurrentExerciseIndex(currentExerciseIndex + 1);
-      }
+    addLoggedSet({
+      exerciseId: exercise.id,
+      setNumber: nextSetNumber,
+      reps,
+      durationSeconds: exercise.durationSeconds,
+      completed: true,
+    });
+
+    if (shouldAdvanceExercise) {
+      setCurrentExerciseIndex(currentExerciseIndex + 1);
     }
+
   };
 
   const handleComplete = async (difficultyRating: number) => {
