@@ -1,17 +1,26 @@
 # Cloudflare Pages — Git build settings
 
-Use these in the **trainforge** Pages project when connected to `trainforge-web` on GitHub.
+> **Your build is failing because the Cloudflare dashboard still has a broken command.**
+> Pushing to GitHub does **not** change the dashboard. You must edit it manually (steps below).
 
-| Setting | Value |
-|---------|--------|
-| **Framework preset** | None |
-| **Build command** | `npm run build:pages` |
-| **Build output directory** | `.open-next` (also set in `wrangler.jsonc`) |
-| **Node version** | 20 or 22 |
+## Fix in Cloudflare Dashboard (required)
 
-Cloudflare already runs `npm ci` before your build command — **do not** add `npm ci` again.
+1. Open [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → project **trainforge**
+2. **Settings** → **Build** (or *Build configuration*) → **Edit**
+3. Set exactly:
 
-### Environment variables (Build)
+| Field | Value |
+|--------|--------|
+| **Framework preset** | **None** |
+| **Build command** | `npm run build` |
+| **Build output directory** | `.open-next` |
+
+4. **Remove** any text like `npx @npm ci`, `@cloudflare/next-on-pages`, or extra commands
+5. **Save** → **Retry deployment**
+
+### Build environment variables
+
+Add under **Settings** → **Environment variables** (Production + Preview):
 
 | Variable | Value |
 |----------|--------|
@@ -19,27 +28,20 @@ Cloudflare already runs `npm ci` before your build command — **do not** add `n
 | `NEXT_PUBLIC_APP_URL` | `https://trainforge.pages.dev` |
 | `NEXT_PUBLIC_API_URL` | `/api` |
 
-### Common mistakes (will fail the build)
+---
+
+## What your failed log shows (wrong)
+
+```text
+npx @npm ci && opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.shcloudflare/next-on-pages@1
+```
+
+This is invalid. Do **not** use `@cloudflare/next-on-pages` — this project uses **OpenNext**.
+
+## Correct command (copy-paste)
 
 ```bash
-# WRONG — invalid package name
-npx @npm ci && opennextjs-cloudflare build ...
-
-# WRONG — do not use @cloudflare/next-on-pages (this project uses OpenNext)
-npx @cloudflare/next-on-pages@1
-
-# WRONG — plain next build is not enough for Pages worker bundle
 npm run build
 ```
 
-### Correct build command
-
-```bash
-npm run build:pages
-```
-
-Equivalent to:
-
-```bash
-opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh
-```
+Cloudflare already runs `npm ci` before this — do not add it again.

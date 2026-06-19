@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "build:pages": "opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh",
+    "build": "opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh",
+    "build:pages": "npm run build",
+    "build:next": "next build",
     "dev": "next dev --port 2021",
     "start": "next start",
     "lint": "eslint",
