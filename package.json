@@ -5,6 +5,7 @@
   "scripts": {
     "build": "opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh",
     "build:pages": "npm run build",
+    "build:cloudflare": "npm run build",
     "build:next": "next build",
     "dev": "next dev --port 2021",
     "start": "next start",

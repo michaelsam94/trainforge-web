@@ -1,47 +1,32 @@
-# Cloudflare Pages — Git build settings
+# Cloudflare Pages build settings
 
-> **Your build is failing because the Cloudflare dashboard still has a broken command.**
-> Pushing to GitHub does **not** change the dashboard. You must edit it manually (steps below).
+Use these exact settings for the `trainforge` Pages project.
 
-## Fix in Cloudflare Dashboard (required)
+| Setting | Value |
+| --- | --- |
+| Framework preset | `None` |
+| Build command | `npm run build` |
+| Build output directory | `.open-next` |
+| Root directory | repository root |
+| Node.js version | `22` |
 
-1. Open [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → project **trainforge**
-2. **Settings** → **Build** (or *Build configuration*) → **Edit**
-3. Set exactly:
-
-| Field | Value |
-|--------|--------|
-| **Framework preset** | **None** |
-| **Build command** | `npm run build` |
-| **Build output directory** | `.open-next` |
-
-4. **Remove** any text like `npx @npm ci`, `@cloudflare/next-on-pages`, or extra commands
-5. **Save** → **Retry deployment**
-
-### Build environment variables
-
-Add under **Settings** → **Environment variables** (Production + Preview):
+Required production environment variables:
 
 | Variable | Value |
-|----------|--------|
+| --- | --- |
 | `API_PROXY_TARGET` | `https://trainforge-api.michaelsam00.workers.dev` |
 | `NEXT_PUBLIC_APP_URL` | `https://trainforge.pages.dev` |
 | `NEXT_PUBLIC_API_URL` | `/api` |
 
----
+Do not use the old `@cloudflare/next-on-pages` preset or command. This app is built with `@opennextjs/cloudflare`, and `npm run build` already runs:
 
-## What your failed log shows (wrong)
+1. `opennextjs-cloudflare build`
+2. `bash scripts/prepare-pages-deploy.sh`
 
-```text
-npx @npm ci && opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.shcloudflare/next-on-pages@1
-```
-
-This is invalid. Do **not** use `@cloudflare/next-on-pages` — this project uses **OpenNext**.
-
-## Correct command (copy-paste)
+If a deploy log says Cloudflare is executing a command that starts with `npx @npm ci`, or contains `@cloudflare/next-on-pages`, update the Pages dashboard build command back to:
 
 ```bash
 npm run build
 ```
 
-Cloudflare already runs `npm ci` before this — do not add it again.
+The repo also exposes `npm run build:cloudflare` as an alias, but the dashboard should use `npm run build` so it stays aligned with the default production build.
