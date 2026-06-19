@@ -24,15 +24,16 @@ App runs at `http://localhost:2021`. Ensure API is running on port **2020**; the
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Next.js dev server |
-| `npm run build` | OpenNext production build for Cloudflare Pages |
-| `npm run build:next` | Plain `next build` (local check only) |
+| `npm run build` | Plain Next.js production build |
+| `npm run build:cloudflare` | OpenNext production build for Cloudflare Pages |
+| `npm run build:next` | Plain `next build` alias |
 | `npm run typecheck` | TypeScript strict check |
 | `npm run lint` | ESLint + jsx-a11y |
 | `npm run test` | Vitest (domain + components) |
 
 ## Cloudflare Pages deploy
 
-**Build command in dashboard must be:** `npm run build` (preset: **None**). See [CLOUDFLARE_BUILD.md](./CLOUDFLARE_BUILD.md).
+**Build command in dashboard must be:** `npm run build:cloudflare` (preset: **None**). See [CLOUDFLARE_BUILD.md](./CLOUDFLARE_BUILD.md).
 
 ## Structure
 

@@ -9,7 +9,7 @@ Open **Cloudflare Dashboard** -> **Workers & Pages** -> **trainforge** -> **Sett
 | Setting | Value |
 | --- | --- |
 | Framework preset | `None` |
-| Build command | `npm run build` |
+| Build command | `npm run build:cloudflare` |
 | Build output directory | `.open-next` |
 | Root directory | repository root |
 | Node.js version | `22` |
@@ -31,9 +31,15 @@ That command is invalid for two reasons:
 1. `npx @npm ci` is not a valid npm install command.
 2. `@cloudflare/next-on-pages` is the old adapter and should not be appended to the OpenNext build.
 
-## What `npm run build` Runs
+## Why This Avoids Recursion
 
-The package script already performs the full Cloudflare Pages build:
+`opennextjs-cloudflare build` invokes the app's normal build script internally. Keep `npm run build` as the plain Next.js build:
+
+```bash
+next build
+```
+
+The dashboard must use `npm run build:cloudflare`, which performs the full Cloudflare Pages build:
 
 ```bash
 opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh
