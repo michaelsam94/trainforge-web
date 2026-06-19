@@ -1,4 +1,5 @@
 import { PlanDaySkeleton } from "@/shared/ui";
+import { Button } from "@/shared/ui/Button";
 import { PlanDayCard } from "@/features/plan-generator/components/PlanDayCard";
 import type { PlanDay, TrainingPlan } from "@/features/plan-generator/types";
 
@@ -28,6 +29,7 @@ export function PlanCalendarView({
   isResetPending = false,
 }: PlanCalendarViewProps) {
   const days: PlanDay[] = plan?.days ?? [];
+  const showReset = Boolean(onReset && plan);
 
   return (
     <main id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
@@ -43,33 +45,47 @@ export function PlanCalendarView({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {onReset && !isEmpty ? (
-            <button
+          {showReset ? (
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
+              loading={isResetPending}
+              disabled={isGenerating || isGeneratePending}
               onClick={onReset}
-              disabled={isResetPending || isGenerating || isGeneratePending}
-              className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-full)] border border-border px-5 text-sm font-medium text-muted hover:text-foreground disabled:opacity-60"
             >
-              {isResetPending ? "Resetting…" : "Reset plan"}
-            </button>
+              Reset plan
+            </Button>
           ) : null}
           {isEmpty && onGenerate ? (
-            <button
+            <Button
               type="button"
-              onClick={onGenerate}
+              size="sm"
+              loading={isGeneratePending || isGenerating}
               disabled={isGeneratePending || isGenerating}
-              className="inline-flex min-h-12 items-center justify-center rounded-[var(--radius-full)] bg-brand-400 px-6 text-base font-medium text-white disabled:opacity-60"
+              onClick={onGenerate}
             >
-              {isGeneratePending || isGenerating ? "Generating…" : "Regenerate with AI"}
-            </button>
+              Regenerate with AI
+            </Button>
           ) : null}
         </div>
       </div>
 
       {errorMessage ? (
-        <p className="mt-4 rounded-[var(--radius-md)] border border-error/30 bg-error/10 px-4 py-3 text-sm text-error">
-          {errorMessage}
-        </p>
+        <div className="mt-4 space-y-3 rounded-[var(--radius-md)] border border-error/30 bg-error/10 p-4">
+          <p className="text-sm text-error">{errorMessage}</p>
+          {showReset ? (
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              loading={isResetPending}
+              onClick={onReset}
+            >
+              Reset and start over
+            </Button>
+          ) : null}
+        </div>
       ) : null}
 
       <div
@@ -91,6 +107,23 @@ export function PlanCalendarView({
 
       {!isLoading && !isGenerating && plan?.status === "ready" && days.length === 0 ? (
         <p className="mt-8 text-sm text-muted">No workout days in this plan yet.</p>
+      ) : null}
+
+      {showReset && !errorMessage ? (
+        <div className="mt-8 border-t border-border pt-6">
+          <p className="text-sm text-muted">Want a different program?</p>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="mt-2 px-0"
+            loading={isResetPending}
+            disabled={isGenerating || isGeneratePending}
+            onClick={onReset}
+          >
+            Reset plan and build from scratch
+          </Button>
+        </div>
       ) : null}
     </main>
   );
