@@ -18,7 +18,7 @@ export function threadQueryKey(threadId: string) {
 export function useThreads() {
   return useQuery({
     queryKey: threadsQueryKey,
-    queryFn: () => fetchThreads(100),
+    queryFn: () => fetchThreads(),
     select: (data) => data.threads,
   });
 }
