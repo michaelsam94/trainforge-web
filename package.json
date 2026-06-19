@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:pages": "opennextjs-cloudflare build && bash scripts/prepare-pages-deploy.sh",
     "dev": "next dev --port 2021",
     "start": "next start",
     "lint": "eslint",
