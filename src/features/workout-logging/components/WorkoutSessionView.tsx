@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
 import Link from "next/link";
 import { Minus, Plus, X } from "lucide-react";
 import { Button } from "@/shared/ui";
@@ -11,6 +13,21 @@ import {
 } from "@/features/workout-logging/hooks/useWorkoutLogging";
 import { useWorkoutSessionStore } from "@/features/workout-logging/store/workoutSessionStore";
 import { ExerciseStepCarousel } from "@/features/workout-logging/components/ExerciseStepCarousel";
+
+const MAX_LOGGABLE_SETS = 5;
+
+function normalizeSetCount(value: number | undefined): number {
+  if (!Number.isFinite(value) || value == null) return 1;
+  return Math.min(MAX_LOGGABLE_SETS, Math.max(1, Math.trunc(value)));
+}
+
+type WorkoutExerciseDetails = {
+  imageUrl?: string | null;
+  instructions?: string[];
+  equipments?: string[];
+  muscleGroup?: string | null;
+  difficulty?: string | null;
+};
 
 type WorkoutSessionViewProps = {
   day: PlanDay;
@@ -31,11 +48,15 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
 
   const logSet = useLogSetMutation();
   const completeWorkout = useCompleteWorkoutMutation();
+  const [isFinished, setIsFinished] = useState(false);
 
   const exercise = day.exercises[currentExerciseIndex];
   if (!exercise) return null;
 
-  const prescribedSets = exercise.sets ?? 1;
+  const exerciseDetails = exercise as typeof exercise & WorkoutExerciseDetails;
+  const exerciseMeta = [exerciseDetails.muscleGroup, exerciseDetails.difficulty, ...(exerciseDetails.equipments ?? [])].filter(Boolean);
+
+  const prescribedSets = normalizeSetCount(exercise.sets);
   const completedForExercise = loggedSets.filter(
     (set) => set.exerciseId === exercise.id && set.completed,
   ).length;
@@ -72,8 +93,22 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
   const handleComplete = async (difficultyRating: number) => {
     if (!workoutLogId) return;
     await completeWorkout.mutateAsync({ workoutLogId, difficultyRating });
-    onExit();
+    setIsFinished(true);
   };
+
+  if (isFinished) {
+    return (
+      <div className="px-4 py-4">
+        <div className="rounded-[var(--radius-md)] border border-border bg-surface p-4">
+          <p className="text-sm font-semibold text-foreground">Workout complete</p>
+          <p className="mt-1 text-sm text-muted-foreground">Your session is saved. Nice work.</p>
+          <Button type="button" className="mt-4" onClick={onExit}>
+            Back to exercises
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex min-h-dvh flex-col bg-background">
@@ -128,9 +163,31 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
             </button>
           </div>
         ) : (
-          <p className="text-center text-muted">
-            Target: {exercise.durationSeconds ? `${String(exercise.durationSeconds)} seconds` : "Complete set"}
-          </p>
+          <div className="text-center text-muted">
+            {exerciseDetails.imageUrl ? (
+              <div className="mt-4 overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface">
+                <img
+                  src={exerciseDetails.imageUrl}
+                  alt={`${exercise.name} demonstration`}
+                  className="aspect-video w-full object-cover"
+                />
+              </div>
+            ) : null}
+
+            {exerciseMeta.length ? (
+              <p className="mt-3 text-sm text-muted-foreground">{exerciseMeta.join(" • ")}</p>
+            ) : null}
+
+            {exerciseDetails.instructions?.length ? (
+              <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
+                {exerciseDetails.instructions.slice(0, 3).map((instruction) => (
+                  <li key={instruction}>{instruction}</li>
+                ))}
+              </ol>
+            ) : null}
+
+            <p>Target: {exercise.durationSeconds ? `${String(exercise.durationSeconds)} seconds` : "Complete set"}</p>
+          </div>
         )}
       </div>
 
