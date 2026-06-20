@@ -3,7 +3,7 @@ export type AuthUser = {
   email: string;
   displayName: string;
   onboardingCompleted: boolean;
-  subscriptionTier: import("@/features/billing/types").SubscriptionTier;
+  subscriptionTier: "free";
 };
 
 export type AuthResponse = {
