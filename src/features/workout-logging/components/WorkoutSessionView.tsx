@@ -62,6 +62,8 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
   ).length;
   const nextSetNumber = completedForExercise + 1;
   const isExerciseComplete = completedForExercise >= prescribedSets;
+  const isLastExercise = currentExerciseIndex >= day.exercises.length - 1;
+  const isWorkoutComplete = isExerciseComplete && isLastExercise;
 
   const handleLogSet = async () => {
     const shouldAdvanceExercise =
@@ -196,7 +198,7 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
           type="button"
           className="w-full"
           loading={logSet.isPending}
-          disabled={isExerciseComplete && currentExerciseIndex >= day.exercises.length - 1}
+          disabled={isWorkoutComplete}
           onClick={() => {
             void handleLogSet();
           }}
@@ -204,7 +206,7 @@ export function WorkoutSessionView({ day, onExit }: WorkoutSessionViewProps) {
           Log set {nextSetNumber}
         </Button>
 
-        {workoutLogId ? (
+        {isWorkoutComplete && workoutLogId ? (
           <div className="mt-4">
             <p className="mb-2 text-center text-sm text-muted">How hard was that session?</p>
             <div className="grid grid-cols-5 gap-2">
