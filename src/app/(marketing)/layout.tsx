@@ -62,6 +62,17 @@ export default function MarketingLayout({
       {children}
       <footer className="border-t border-border py-8 text-center text-sm text-muted">
         <p>© {new Date().getFullYear()} TrainForge</p>
+        <p className="mt-2">
+          Developed by{" "}
+          <a
+            href="https://michaelsam94.tech/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
+            michaelsam94
+          </a>
+        </p>
         <p className="mt-2 flex flex-wrap justify-center gap-4">
           <Link href="/blog" className="underline-offset-4 hover:underline">
             Blog
