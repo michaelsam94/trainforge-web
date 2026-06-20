@@ -20,8 +20,8 @@ export default function LandingPage() {
                 Generate my plan
                 <ArrowRight size={18} aria-hidden />
               </Button>
-              <Button href="/pricing" variant="secondary">
-                View pricing
+              <Button href="/register" variant="secondary">
+                Start free
               </Button>
             </div>
           </div>

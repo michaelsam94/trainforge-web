@@ -1,6 +1,6 @@
 "use client";
 
-import { GatedCoachChatContainer } from "@/features/billing/components/GatedCoachChatContainer";
+import { CoachChatContainer } from "@/features/ai-coach-chat/components/CoachChatContainer";
 
 export default function CoachPage() {
   return (
@@ -9,7 +9,7 @@ export default function CoachPage() {
       <p className="mt-1 text-sm text-muted">
         Not a substitute for medical advice. Coaching context only.
       </p>
-      <GatedCoachChatContainer />
+      <CoachChatContainer />
     </main>
   );
 }

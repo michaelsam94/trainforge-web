@@ -4,12 +4,8 @@ import { useState } from "react";
 import { cn } from "@/shared/lib/cn";
 import { Button, Card } from "@/shared/ui";
 import { BODY_PART_OPTIONS } from "@/features/plan-generator/constants/bodyParts";
-import { UpgradePrompt } from "@/features/billing/components/BillingUi";
-import { tierIncludesFeature } from "@/features/billing/api/billingApi";
-import type { SubscriptionTier } from "@/features/billing/types";
 
 type PlanBuilderFormProps = {
-  tier: SubscriptionTier;
   isBuilding: boolean;
   isGenerating: boolean;
   onBuildCatalog: () => void;
@@ -18,7 +14,6 @@ type PlanBuilderFormProps = {
 };
 
 export function PlanBuilderForm({
-  tier,
   isBuilding,
   isGenerating,
   onBuildCatalog,
@@ -27,7 +22,7 @@ export function PlanBuilderForm({
 }: PlanBuilderFormProps) {
   const [mode, setMode] = useState<"catalog" | "body_parts">("catalog");
   const [selectedParts, setSelectedParts] = useState<string[]>(["chest", "back", "upper legs"]);
-  const canUseAi = tierIncludesFeature(tier, "generate_plan");
+  const canUseAi = true;
 
   const togglePart = (value: string) => {
     setSelectedParts((current) =>
@@ -133,14 +128,7 @@ export function PlanBuilderForm({
             Generate with AI
           </Button>
         </Card>
-      ) : (
-        <UpgradePrompt
-          feature="generate_plan"
-          currentTier={tier}
-          title="Want AI-generated plans?"
-          description="Upgrade to Pro for AI plan generation, mid-workout adaptation, and streaming coach chat."
-        />
-      )}
+      ) : null}
     </div>
   );
 }

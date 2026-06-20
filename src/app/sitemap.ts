@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllBlogSlugs } from "@/features/marketing/content/blog";
 import { appConfig } from "@/shared/config/app";
 
-const marketingPaths = ["", "/pricing", "/blog", "/coaches", "/gear", "/privacy"];
+const marketingPaths = ["", "/blog", "/coaches", "/gear", "/privacy"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = appConfig.appUrl.replace(/\/$/, "");

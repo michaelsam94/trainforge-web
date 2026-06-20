@@ -40,7 +40,7 @@ export const blogPosts: BlogPost[] = [
     body: [
       "Not every wearable metric should change your workout. TrainForge prioritizes sleep duration, resting heart rate trends, and recent training load.",
       "When recovery is suppressed, the app lowers intensity transparently so you know exactly why today's session changed.",
-      "Premium members can connect Fitbit today, with more providers on the roadmap.",
+      "Members can connect Fitbit today, with more providers on the roadmap.",
     ],
   },
   {

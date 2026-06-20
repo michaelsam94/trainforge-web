@@ -9,16 +9,13 @@ import {
   useWearableMetrics,
 } from "@/features/wearable-sync/hooks/useWearables";
 import { useCurrentUser } from "@/features/auth/hooks/useAuth";
-import { UpgradePrompt } from "@/features/billing/components/BillingUi";
-import { tierIncludesFeature } from "@/features/billing/api/billingApi";
 import { useToast } from "@/shared/ui";
 
 export function WearableSyncSection() {
   const { data, isLoading } = useWearableMetrics();
   const sync = useSyncWearables();
   const { data: authData } = useCurrentUser();
-  const tier = authData?.user.subscriptionTier ?? "free";
-  const canUseWearables = tierIncludesFeature(tier, "wearables");
+  const canUseWearables = Boolean(authData?.user);
   const { toast } = useToast();
   const searchParams = useSearchParams();
 
@@ -32,17 +29,7 @@ export function WearableSyncSection() {
   if (isLoading) {
     return null;
   }
-
-  if (!canUseWearables) {
-    return (
-      <UpgradePrompt
-        feature="wearables"
-        currentTier={tier}
-        title="Wearable sync is Premium"
-        description="Connect Fitbit and recovery signals to unlock smarter load adjustments."
-      />
-    );
-  }
+  if (!canUseWearables) return null;
 
   return (
     <div className="space-y-6">

@@ -11,7 +11,6 @@ import {
 import { PlanBuilderForm } from "@/features/plan-generator/components/PlanBuilderForm";
 import { PlanCalendarView } from "@/features/plan-generator/components/PlanCalendarView";
 import { useCurrentUser } from "@/features/auth/hooks/useAuth";
-import { tierIncludesFeature } from "@/features/billing/api/billingApi";
 
 export function PlanCalendarContainer() {
   const searchParams = useSearchParams();
@@ -23,8 +22,7 @@ export function PlanCalendarContainer() {
   const buildManualPlan = useBuildManualPlanMutation();
   const resetPlan = useResetPlanMutation();
   const { data: authData } = useCurrentUser();
-  const tier = authData?.user.subscriptionTier ?? "free";
-  const canGenerateAi = tierIncludesFeature(tier, "generate_plan");
+  const canGenerateAi = Boolean(authData?.user);
 
   const isGenerating = plan?.status === "generating" || generatePlan.isPending;
   const isBuilding = buildManualPlan.isPending;
@@ -60,7 +58,6 @@ export function PlanCalendarContainer() {
         </p>
         <div className="mt-6">
           <PlanBuilderForm
-            tier={tier}
             isBuilding={isBuilding}
             isGenerating={isGenerating}
             onBuildCatalog={() => {

@@ -21,7 +21,6 @@ export type ExerciseSummary = {
   imageUrl: string | null;
   videoUrl: string | null;
   vimeoId: string | null;
-  isPremium: boolean;
 };
 
 export type ExercisesResponse = {

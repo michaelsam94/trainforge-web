@@ -20,11 +20,6 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
           alt={exercise.name}
           label={exercise.muscleGroup}
         />
-        {exercise.isPremium ? (
-          <span className="absolute right-2 top-2 rounded bg-background/90 px-2 py-0.5 text-[10px] font-medium text-muted">
-            Premium
-          </span>
-        ) : null}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3">
         <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-brand-500">

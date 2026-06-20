@@ -44,9 +44,6 @@ export default function MarketingLayout({
             <Link href="/gear" className="text-muted hover:text-foreground">
               Gear
             </Link>
-            <Link href="/pricing" className="text-muted hover:text-foreground">
-              Pricing
-            </Link>
             <Link href="/privacy" className="text-muted hover:text-foreground">
               Privacy
             </Link>
@@ -66,9 +63,6 @@ export default function MarketingLayout({
       <footer className="border-t border-border py-8 text-center text-sm text-muted">
         <p>© {new Date().getFullYear()} TrainForge</p>
         <p className="mt-2 flex flex-wrap justify-center gap-4">
-          <Link href="/pricing" className="underline-offset-4 hover:underline">
-            Pricing
-          </Link>
           <Link href="/blog" className="underline-offset-4 hover:underline">
             Blog
           </Link>

@@ -20,7 +20,7 @@ export const gearItems: GearItem[] = [
     id: "recovery-sleep-tracker",
     name: "Sleep & recovery tracker",
     category: "Wearables",
-    summary: "Pairs with TrainForge Premium to feed sleep and HRV signals into adaptive planning.",
+    summary: "Pairs with TrainForge to feed sleep and HRV signals into adaptive planning.",
     affiliateUrl: "https://example.com/gear/sleep-tracker",
     affiliateDisclosure: "Affiliate link — TrainForge may earn a commission at no extra cost to you.",
   },

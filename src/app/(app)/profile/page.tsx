@@ -1,10 +1,8 @@
 "use client";
 
-import { Suspense } from "react";
 import { Card, ProgressRing, Skeleton } from "@/shared/ui";
 import { BadgeShelf } from "@/features/progress-tracking/components/BadgeShelf";
 import { useBadges, useProgressSummary } from "@/features/progress-tracking/hooks/useProgress";
-import { ProfileSubscriptionSection } from "@/features/billing/components/ProfileSubscriptionSection";
 import { DeleteAccountSection } from "@/features/privacy/components/DeleteAccountSection";
 
 export default function ProfilePage() {
@@ -16,12 +14,9 @@ export default function ProfilePage() {
   return (
     <main id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
       <h1 className="font-display text-2xl font-bold">Profile</h1>
-      <p className="mt-1 text-sm text-muted">Badges, settings, subscription</p>
+      <p className="mt-1 text-sm text-muted">Badges, settings, and account controls</p>
 
       <div className="mt-8 space-y-6">
-        <Suspense fallback={null}>
-          <ProfileSubscriptionSection />
-        </Suspense>
 
         <div className="grid gap-6 md:grid-cols-2">
           <Card>

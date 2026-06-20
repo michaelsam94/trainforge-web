@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <h2 className="font-display text-xl font-bold text-foreground">What we collect</h2>
           <p className="mt-2">
             Account details (email, display name), onboarding preferences, workout logs, AI chat
-            transcripts, wearable metrics you connect, and subscription status.
+            transcripts, wearable metrics you connect, and account status.
           </p>
         </section>
 
