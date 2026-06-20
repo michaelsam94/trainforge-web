@@ -1,26 +1,52 @@
 import type { MetadataRoute } from "next";
+
 import { getAllBlogSlugs } from "@/features/marketing/content/blog";
 import { appConfig } from "@/shared/config/app";
 
-const marketingPaths = ["", "/blog", "/coaches", "/gear", "/privacy"];
+const baseUrl = appConfig.appUrl.replace(/\/$/, "");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = appConfig.appUrl.replace(/\/$/, "");
   const now = new Date();
 
-  const staticEntries = marketingPaths.map((path) => ({
-    url: `${base}${path}`,
+  const staticRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/coaches`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/gear`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+  ];
+
+  const blogRoutes: MetadataRoute.Sitemap = getAllBlogSlugs().map((slug) => ({
+    url: `${baseUrl}/blog/${slug}`,
     lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : 0.8,
+    changeFrequency: "monthly",
+    priority: 0.75,
   }));
 
-  const blogEntries = getAllBlogSlugs().map((slug) => ({
-    url: `${base}/blog/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
-
-  return [...staticEntries, ...blogEntries];
+  return [...staticRoutes, ...blogRoutes];
 }

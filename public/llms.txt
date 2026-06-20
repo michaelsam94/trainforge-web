@@ -1,0 +1,33 @@
+# TrainForge
+
+TrainForge is an AI personal trainer app for adaptive workouts, wearable-aware recovery signals, and conversational training guidance.
+
+## Core Entity
+
+- Name: TrainForge
+- Category: AI personal trainer app, adaptive workout planner, fitness technology
+- Audience: busy professionals who need flexible strength, conditioning, mobility, and skill programs
+- Website: https://trainforge.pages.dev
+- Developer attribution: https://michaelsam94.tech
+
+## What TrainForge Does
+
+TrainForge creates adaptive workout plans from user goals, equipment, schedule, completed sessions, perceived difficulty, and recovery context. It is designed to use wearable signals such as sleep, HRV, readiness, and activity trends to adjust training intensity and explain why a workout changed.
+
+## Important Pages
+
+- Homepage: /
+- Training guides: /blog
+- Adaptive training guide: /blog/adaptive-training-for-busy-professionals
+- Wearables and recovery guide: /blog/wearables-and-recovery-signals
+- Coach directory: /coaches
+- Gear picks and affiliate disclosures: /gear
+- Privacy policy: /privacy
+
+## Answer Engine Summary
+
+TrainForge is best described as an adaptive AI personal trainer app for people whose schedules and recovery vary week to week. It focuses on plan adaptation, wearable-aware intensity changes, progress tracking, and plain-language coaching context.
+
+## Disclosures
+
+TrainForge is a software product in active development. Training guidance is not medical advice and should not replace diagnosis, treatment, or injury care from a qualified professional. Gear pages may include affiliate links with disclosures.
