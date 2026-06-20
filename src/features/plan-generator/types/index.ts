@@ -7,6 +7,11 @@ export type PlanExercise = {
   reps?: string;
   durationSeconds?: number;
   notes?: string;
+  imageUrl?: string | null;
+  instructions?: string[];
+  equipments?: string[];
+  muscleGroup?: string | null;
+  difficulty?: string | null;
 };
 
 export type PlanDay = {
