@@ -6,12 +6,15 @@ import {
   BarChart3,
   CalendarDays,
   Dumbbell,
+  LogOut,
   MessageCircle,
   User,
   Users,
 } from "lucide-react";
-import { cn } from "@/shared/lib/cn";
+
+import { useLogoutMutation } from "@/features/auth/hooks/useAuth";
 import { navItems } from "@/shared/config/app";
+import { cn } from "@/shared/lib/cn";
 
 const iconMap = {
   calendar: CalendarDays,
@@ -24,6 +27,11 @@ const iconMap = {
 
 export function AppNav() {
   const pathname = usePathname();
+  const logoutMutation = useLogoutMutation();
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
 
   return (
     <>
@@ -58,13 +66,13 @@ export function AppNav() {
 
       {/* Desktop sidebar */}
       <nav
-        className="hidden w-56 shrink-0 border-r border-border bg-card p-4 md:block"
+        className="hidden w-56 shrink-0 flex-col border-r border-border bg-card p-4 md:flex"
         aria-label="Main navigation"
       >
         <p className="mb-6 font-display text-lg font-bold text-foreground">
           TrainForge
         </p>
-        <ul className="flex flex-col gap-1">
+        <ul className="flex flex-1 flex-col gap-1">
           {navItems.map((item) => {
             const Icon = iconMap[item.icon];
             const active = pathname.startsWith(item.href);
@@ -88,6 +96,15 @@ export function AppNav() {
             );
           })}
         </ul>
+        <button
+          type="button"
+          className="mt-4 flex min-h-11 items-center gap-2 rounded-[var(--radius-sm)] px-3 text-sm font-medium text-muted transition-colors hover:bg-background hover:text-foreground disabled:opacity-60"
+          onClick={handleLogout}
+          disabled={logoutMutation.isPending}
+        >
+          <LogOut size={20} aria-hidden />
+          {logoutMutation.isPending ? "Logging out..." : "Logout"}
+        </button>
       </nav>
     </>
   );

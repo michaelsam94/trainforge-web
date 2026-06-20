@@ -1,8 +1,12 @@
 "use client";
 
 import { Card, ProgressRing, Skeleton } from "@/shared/ui";
+import { LogoutSection } from "@/features/auth/components/LogoutSection";
 import { BadgeShelf } from "@/features/progress-tracking/components/BadgeShelf";
-import { useBadges, useProgressSummary } from "@/features/progress-tracking/hooks/useProgress";
+import {
+  useBadges,
+  useProgressSummary,
+} from "@/features/progress-tracking/hooks/useProgress";
 import { DeleteAccountSection } from "@/features/privacy/components/DeleteAccountSection";
 
 export default function ProfilePage() {
@@ -12,12 +16,16 @@ export default function ProfilePage() {
   const adherence = summary?.adherence;
 
   return (
-    <main id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
+    <main
+      id="main-content"
+      className="mx-auto w-full max-w-6xl flex-1 px-4 py-6"
+    >
       <h1 className="font-display text-2xl font-bold">Profile</h1>
-      <p className="mt-1 text-sm text-muted">Badges, settings, and account controls</p>
+      <p className="mt-1 text-sm text-muted">
+        Badges, settings, and account controls
+      </p>
 
       <div className="mt-8 space-y-6">
-
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <h2 className="font-display text-lg font-bold">This week</h2>
@@ -45,6 +53,7 @@ export default function ProfilePage() {
           </Card>
         </div>
 
+        <LogoutSection />
         <DeleteAccountSection />
       </div>
     </main>
